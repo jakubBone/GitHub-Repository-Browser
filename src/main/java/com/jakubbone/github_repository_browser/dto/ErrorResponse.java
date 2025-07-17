@@ -1,6 +1,11 @@
 package com.jakubbone.github_repository_browser.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public class ErrorResponse {
-    private String statusCode;
+    private int statusCode;
     private String message;
 }

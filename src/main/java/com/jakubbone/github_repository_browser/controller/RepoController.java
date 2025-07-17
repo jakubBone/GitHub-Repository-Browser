@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("github/")
+@RequestMapping("github/{owner}/repos")
 public class RepoController {
     private final RepoService repoService;
 
@@ -18,8 +18,11 @@ public class RepoController {
         this.repoService = repoService;
     }
 
-    @GetMapping("{owner}/repos")
+    @GetMapping
     public List<RepoResponse> getRepos(@PathVariable String owner){
-        repoService.findAndReturnRepos(owner);
+        List<RepoResponse> repos = repoService.findAndReturnRepos(owner);
+
+        if(repos.isEmpty())
+
     }
 }

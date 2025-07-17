@@ -2,7 +2,7 @@ package com.jakubbone.github_repository_browser.dto;
 
 import java.util.List;
 
-public class RepositoryResponse {
+public class RepoResponse {
     private String ownerLogin;
     private String repoName;
     private List<BranchResponse> branches;

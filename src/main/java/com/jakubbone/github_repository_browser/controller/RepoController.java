@@ -21,8 +21,6 @@ public class RepoController {
     @GetMapping
     public List<RepoResponse> getRepos(@PathVariable String owner){
         List<RepoResponse> repos = repoService.findAndReturnRepos(owner);
-
-        if(repos.isEmpty())
-
+        return repos;
     }
 }

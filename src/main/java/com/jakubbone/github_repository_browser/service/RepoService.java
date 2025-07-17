@@ -7,6 +7,6 @@ import java.util.List;
 
 @Service
 public class RepoService {
-    public List<RepoResponse> findAndReturnRepos(String ownerLogin){
+    public List<RepoResponse> findAndReturnRepos(String owner){
     }
 }

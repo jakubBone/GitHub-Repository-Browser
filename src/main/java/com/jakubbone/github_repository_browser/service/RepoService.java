@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class RepoService {
-    public List<RepoResponse> findAndReturnRepos(String owner) {
+    public List<RepoResponse> findRepos(String owner) {
         if (owner == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Non-existent owner");
         }

@@ -2,6 +2,7 @@ package com.jakubbone.github_repository_browser.controller;
 
 import com.jakubbone.github_repository_browser.dto.RepoResponse;
 import com.jakubbone.github_repository_browser.service.RepoService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,8 @@ public class RepoController {
     }
 
     @GetMapping
-    public List<RepoResponse> getRepos(@PathVariable String owner){
-        List<RepoResponse> repos = repoService.findAndReturnRepos(owner);
-        return repos;
+    public ResponseEntity<List<RepoResponse>> getRepos(@PathVariable String owner){
+        List<RepoResponse> repos = repoService.findRepos(owner);
+        return ResponseEntity.ok(repos);
     }
 }

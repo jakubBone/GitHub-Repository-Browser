@@ -9,11 +9,7 @@ import java.util.List;
 
 @Component
 public class GitHubClient {
-    private final RestClient restClient;
-
-    public GitHubClient(RestClient restClient) {
-        this.restClient = restClient;
-    }
+    private RestClient restClient;
 
     public List<RepoResponse> extractRepoForOwner(String owner) {
         return restClient.get()

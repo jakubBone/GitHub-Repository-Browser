@@ -8,8 +8,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class RepoService {
-    public List<RepoResponse> findRepos(String owner) {
+public class GitHubRepoService {
+    public List<RepoResponse> getRepos(String owner) {
         if (owner == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Non-existent owner");
         }

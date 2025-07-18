@@ -1,7 +1,7 @@
 package com.jakubbone.github_repository_browser.controller;
 
 import com.jakubbone.github_repository_browser.dto.RepoResponse;
-import com.jakubbone.github_repository_browser.service.RepoService;
+import com.jakubbone.github_repository_browser.service.GitHubRepoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("github/{owner}/repos")
-public class RepoController {
-    private final RepoService repoService;
+@RequestMapping("/api/v1/repositories")
+public class GitHubRepoController {
+    private final GitHubRepoService service;
 
-    public RepoController(RepoService repoService) {
-        this.repoService = repoService;
+    public GitHubRepoController(GitHubRepoService service) {
+        this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/{owner}")
     public ResponseEntity<List<RepoResponse>> getRepos(@PathVariable String owner){
-        List<RepoResponse> repos = repoService.findRepos(owner);
+        List<RepoResponse> repos = service.getRepos(owner);
         return ResponseEntity.ok(repos);
     }
 }

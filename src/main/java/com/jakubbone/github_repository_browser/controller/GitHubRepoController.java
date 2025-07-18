@@ -1,6 +1,6 @@
 package com.jakubbone.github_repository_browser.controller;
 
-import com.jakubbone.github_repository_browser.dto.RepoResponse;
+import com.jakubbone.github_repository_browser.dto.response.RepoResponse;
 import com.jakubbone.github_repository_browser.service.GitHubRepoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

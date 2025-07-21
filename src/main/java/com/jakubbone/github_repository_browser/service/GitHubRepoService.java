@@ -31,17 +31,17 @@ public class GitHubRepoService {
             }
 
         // Current repo branches
-        List<GithubApiBranch> apiBranches = client.extractBranchForRepo(repo.owner(), repo.name());
+        List<GithubApiBranch> apiBranches = client.extractBranchForRepo(repo.name(), repo.owner().login());
 
         List<BranchResponse> branchResponses = new ArrayList<>();
 
         for(GithubApiBranch apiBranch: apiBranches) {
-           branchResponses.add(new BranchResponse(apiBranch.name(), apiBranch.lastCommitSha()));
+           branchResponses.add(new BranchResponse(apiBranch.name(), apiBranch.commit().sha()));
         }
 
         repoResponses.add(new RepoResponse(
-                repo.owner(),
                 repo.name(),
+                repo.owner(),
                 branchResponses));
 
         }

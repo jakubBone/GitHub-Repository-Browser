@@ -23,9 +23,9 @@ public class GitHubClient {
                 .body(new ParameterizedTypeReference<>() {});
     }
 
-    public List<GithubApiBranch> extractBranchForRepo(String owner, String repoName){
+    public List<GithubApiBranch> extractBranchForRepo(String name, String owner){
         return restClient.get()
-                .uri("/repos/{owner}/{repoName}/branches", owner, repoName)
+                .uri("/repos/{owner}/{repoName}/branches", owner, name)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
     }

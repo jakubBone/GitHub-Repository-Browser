@@ -12,6 +12,10 @@ import java.util.List;
 public class GitHubClient {
     private RestClient restClient;
 
+    public GitHubClient(RestClient restClient) {
+        this.restClient = restClient;
+    }
+
     public List<GithubRepoApi> extractRepoForOwner(String owner) {
         return restClient.get()
                 .uri("users/{owner}/repos", owner)

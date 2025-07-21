@@ -1,7 +1,7 @@
 package com.jakubbone.github_repository_browser.client;
 
 import com.jakubbone.github_repository_browser.dto.GithubApiBranch;
-import com.jakubbone.github_repository_browser.dto.GithubRepoApi;
+import com.jakubbone.github_repository_browser.dto.GithubApiRepo;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -16,7 +16,7 @@ public class GitHubClient {
         this.restClient = restClient;
     }
 
-    public List<GithubRepoApi> extractRepoForOwner(String owner) {
+    public List<GithubApiRepo> extractRepoForOwner(String owner) {
         return restClient.get()
                 .uri("users/{owner}/repos", owner)
                 .retrieve()

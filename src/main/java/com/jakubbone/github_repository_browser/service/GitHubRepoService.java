@@ -3,7 +3,7 @@ package com.jakubbone.github_repository_browser.service;
 import com.jakubbone.github_repository_browser.client.GitHubClient;
 import com.jakubbone.github_repository_browser.dto.response.BranchResponse;
 import com.jakubbone.github_repository_browser.dto.GithubApiBranch;
-import com.jakubbone.github_repository_browser.dto.GithubRepoApi;
+import com.jakubbone.github_repository_browser.dto.GithubApiRepo;
 import com.jakubbone.github_repository_browser.dto.response.RepoResponse;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +22,10 @@ public class GitHubRepoService {
         List<RepoResponse> repoResponses = new ArrayList<>(); // wynik pusty
 
         // All repos for owner (owner, name, branches[])
-        List<GithubRepoApi> repos = client.extractRepoForOwner(owner);
+        List<GithubApiRepo> repos = client.extractRepoForOwner(owner);
 
         // For each owner's repo
-        for(GithubRepoApi repo: repos){
+        for(GithubApiRepo repo: repos){
             if (repo.folk()) {
                 continue;
             }

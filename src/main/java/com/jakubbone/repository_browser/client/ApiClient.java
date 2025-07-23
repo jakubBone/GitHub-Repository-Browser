@@ -1,7 +1,5 @@
 package com.jakubbone.repository_browser.client;
 
-import com.jakubbone.repository_browser.dto.ApiBranch;
-import com.jakubbone.repository_browser.dto.Repo;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -23,10 +21,22 @@ public class ApiClient {
                 .body(new ParameterizedTypeReference<>() {});
     }
 
-    public List<ApiBranch> extractBranchForRepo(String name, String owner){
+    public List<Branch> extractBranchForRepo(String name, String owner){
         return restClient.get()
                 .uri("/repos/{owner}/{repoName}/branches", owner, name)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
+    }
+
+    public record Repo(String name, RepoOwner owner, List<Branch> branches, boolean folk) {
+    }
+
+    public record RepoOwner(String login) {
+    }
+
+    public record Branch(String name, Commit commit) {
+    }
+
+    public record Commit(String sha) {
     }
 }

@@ -1,6 +1,6 @@
 package com.jakubbone.repository_browser.controller;
 
-import com.jakubbone.repository_browser.dto.response.RepoResponse;
+import com.jakubbone.repository_browser.dto.RepoResponse;
 import com.jakubbone.repository_browser.service.RepoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

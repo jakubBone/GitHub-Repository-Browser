@@ -1,6 +1,6 @@
 package com.jakubbone.repository_browser.exception;
 
-import com.jakubbone.repository_browser.dto.response.ErrorResponse;
+import com.jakubbone.repository_browser.dto.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

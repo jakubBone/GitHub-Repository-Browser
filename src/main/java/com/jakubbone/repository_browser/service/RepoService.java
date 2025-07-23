@@ -1,14 +1,11 @@
 package com.jakubbone.repository_browser.service;
 
 import com.jakubbone.repository_browser.client.ApiClient;
-import com.jakubbone.repository_browser.dto.response.BranchResponse;
-import com.jakubbone.repository_browser.dto.ApiBranch;
-import com.jakubbone.repository_browser.dto.Repo;
-import com.jakubbone.repository_browser.dto.response.RepoResponse;
+import com.jakubbone.repository_browser.dto.RepoResponse;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RepoService {
@@ -19,29 +16,25 @@ public class RepoService {
     }
 
     public List<RepoResponse> getRepos(String owner) {
-        List<RepoResponse> repoResponses = new ArrayList<>();
+        List<ApiClient.Repo> repos = client.extractRepoForOwner(owner);
 
-        List<Repo> repos = client.extractRepoForOwner(owner);
+        return repos.stream()
+                .filter(repo -> !repo.folk())
+                .map(repo -> {
+                    List<ApiClient.Branch> branches = client.extractBranchForRepo(repo.name(), repo.owner().login());
 
-        for(Repo repo: repos){
-            if (repo.folk()) {
-                continue;
-            }
+                    List<RepoResponse.BranchResponse> branchResponses = branches.stream()
+                            .map(branch -> new RepoResponse.BranchResponse(
+                                    branch.name(),
+                                    branch.commit().sha())
+                            )
+                            .collect(Collectors.toList());
 
-        List<ApiBranch> apiBranches = client.extractBranchForRepo(repo.name(), repo.owner().login());
-
-        List<BranchResponse> branchResponses = new ArrayList<>();
-
-        for(ApiBranch apiBranch: apiBranches) {
-           branchResponses.add(new BranchResponse(apiBranch.name(), apiBranch.commit().sha()));
-        }
-
-        repoResponses.add(new RepoResponse(
-                repo.name(),
-                repo.owner(),
-                branchResponses));
-
-        }
-        return repoResponses;
+                    return new RepoResponse(
+                            repo.name(),
+                            new RepoResponse.Owner(repo.owner().login()),
+                            branchResponses);
+                })
+                .collect(Collectors.toList());
     }
 }

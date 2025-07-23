@@ -25,7 +25,6 @@ public class RepoController {
         return ResponseEntity.ok(repos);
     }
 
-
     @GetMapping(path = {"", "/"})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorResponse> usernameMissing() {

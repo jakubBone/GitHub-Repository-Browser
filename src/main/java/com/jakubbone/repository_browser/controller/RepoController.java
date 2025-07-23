@@ -27,17 +27,14 @@ public class RepoController {
 
     @GetMapping(path = {"", "/"})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ErrorResponse> usernameMissing() {
+    public ResponseEntity<ErrorResponse> handleMissingOwner() {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse(404,
-                        "Username is missing"));
+                .body(new ErrorResponse(404, "Owner is missing"));
     }
 
     @ExceptionHandler(HttpClientErrorException.NotFound.class)
-    public ResponseEntity<ErrorResponse> handle404(HttpClientErrorException.NotFound e) {
-        ErrorResponse error = new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                "User not found");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    public ResponseEntity<ErrorResponse> handleUserNotFound(HttpClientErrorException.NotFound e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(404, "Owner not found"));
     }
 }

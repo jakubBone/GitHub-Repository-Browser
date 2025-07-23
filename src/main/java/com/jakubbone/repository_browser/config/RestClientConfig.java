@@ -15,7 +15,7 @@ public class RestClientConfig {
     public RestClient restClient(){
         return RestClient.builder()
                 .baseUrl("https://api.github.com")
-                .defaultHeader("Autorization","Bearer " + apiToken)
+                .defaultHeader("Authorization","Bearer " + apiToken)
                 .build();
     }
 }

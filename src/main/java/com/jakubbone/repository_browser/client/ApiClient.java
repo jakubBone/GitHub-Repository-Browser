@@ -28,7 +28,7 @@ public class ApiClient {
                 .body(new ParameterizedTypeReference<>() {});
     }
 
-    public record Repo(String name, RepoOwner owner, List<Branch> branches, boolean folk) {
+    public record Repo(String name, RepoOwner owner, List<Branch> branches, boolean fork) {
     }
 
     public record RepoOwner(String login) {

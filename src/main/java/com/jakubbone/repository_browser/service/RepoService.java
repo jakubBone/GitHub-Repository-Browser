@@ -21,7 +21,7 @@ public class RepoService {
         List<Repo> repos = client.extractRepoForOwner(owner);
 
         return repos.stream()
-                .filter(repo -> !repo.folk())
+                .filter(repo -> !repo.fork())
                 .map(repo -> {
                     List<Branch> branches = client.extractBranchForRepo(repo.name(), repo.owner().login());
 

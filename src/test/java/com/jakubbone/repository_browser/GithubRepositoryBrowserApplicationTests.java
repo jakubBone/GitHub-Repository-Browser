@@ -1,4 +1,4 @@
-package com.jakubbone.github_repository_browser;
+package com.jakubbone.repository_browser;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

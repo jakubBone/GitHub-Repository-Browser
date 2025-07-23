@@ -1,4 +1,4 @@
-package com.jakubbone.github_repository_browser.config;
+package com.jakubbone.repository_browser.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

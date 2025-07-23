@@ -1,7 +1,7 @@
-package com.jakubbone.github_repository_browser.controller;
+package com.jakubbone.repository_browser.controller;
 
-import com.jakubbone.github_repository_browser.dto.response.RepoResponse;
-import com.jakubbone.github_repository_browser.service.GitHubRepoService;
+import com.jakubbone.repository_browser.dto.response.RepoResponse;
+import com.jakubbone.repository_browser.service.RepoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,10 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/repositories")
-public class GitHubRepoController {
-    private final GitHubRepoService service;
+public class RepoController {
+    private final RepoService service;
 
-    public GitHubRepoController(GitHubRepoService service) {
+    public RepoController(RepoService service) {
         this.service = service;
     }
 

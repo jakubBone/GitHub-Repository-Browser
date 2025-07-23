@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.jakubbone</groupId>
-	<artifactId>github-repository-browser</artifactId>
+	<artifactId>repository-browser</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>github-repository-browser</name>
-	<description>Simple service exposing non‑fork GitHub repos with branches</description>
+	<name>repository-browser</name>
+	<description>Simple service exposing non‑fork repos with branches</description>
 	<url/>
 	<licenses>
 		<license/>

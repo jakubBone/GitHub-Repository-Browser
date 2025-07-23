@@ -1,6 +1,8 @@
 package com.jakubbone.repository_browser.service;
 
 import com.jakubbone.repository_browser.client.ApiClient;
+import com.jakubbone.repository_browser.client.ApiClient.Repo;
+import com.jakubbone.repository_browser.client.ApiClient.Branch;
 import com.jakubbone.repository_browser.dto.RepoResponse;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +16,13 @@ public class RepoService {
     public RepoService(ApiClient client) {
         this.client = client;
     }
-
     public List<RepoResponse> getRepos(String owner) {
-        List<ApiClient.Repo> repos = client.extractRepoForOwner(owner);
+        List<Repo> repos = client.extractRepoForOwner(owner);
 
         return repos.stream()
                 .filter(repo -> !repo.folk())
                 .map(repo -> {
-                    List<ApiClient.Branch> branches = client.extractBranchForRepo(repo.name(), repo.owner().login());
+                    List<Branch> branches = client.extractBranchForRepo(repo.name(), repo.owner().login());
 
                     List<RepoResponse.BranchResponse> branchResponses = branches.stream()
                             .map(branch -> new RepoResponse.BranchResponse(

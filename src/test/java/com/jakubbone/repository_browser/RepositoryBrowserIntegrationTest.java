@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-test.properties")
-class RepoControllerIntegrationTest {
+class RepositoryBrowserIntegrationTest {
 	@LocalServerPort
 	private int port;
 
@@ -26,7 +26,7 @@ class RepoControllerIntegrationTest {
 	private TestRestTemplate restTemplate;
 
 	@Test
-	void shouldReturnRepositoriesWithBranchesForExistingOwner() {
+	void shouldReturnNonForkedRepositoriesWithBranchesForExistingOwner() {
 		// Given: "octocat" selected as well-known GitHub user with guaranteed public repos
 		String existingOwner = "octocat";
 		String forkedRepoName = "linguist";
@@ -54,7 +54,7 @@ class RepoControllerIntegrationTest {
 			assertThat(repo.owner()).isNotNull();
 			assertThat(repo.owner().login()).isEqualTo(existingOwner);
 
-			// Verify all returned repositories are not forks
+			// Verify returned repositories are not forks
 			assertThat(repo.name()).isNotEqualTo(forkedRepoName);
 
 			// For each branch, verify structure

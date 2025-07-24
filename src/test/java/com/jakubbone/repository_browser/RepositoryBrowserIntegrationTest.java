@@ -67,6 +67,18 @@ class RepositoryBrowserIntegrationTest {
 	}
 
 	@Test
+	void shouldReturn404ForMissingOwner() {
+		// URL with missing owner
+		String url = "http://localhost:" + port + "/api/v1/repositories/";
+
+		ResponseEntity<ErrorResponse> response = restTemplate.getForEntity(url, ErrorResponse.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+		assertThat(response.getBody().statusCode()).isEqualTo(404);
+		assertThat(response.getBody().message()).isEqualTo("Owner is missing");
+	}
+
+	@Test
 	void shouldReturn404ForNonExistentOwner() {
 		String nonExistingOwner = "notExistentTestOwner";
 		String url = "http://localhost:" + port + "/api/v1/repositories/" + nonExistingOwner;

@@ -1,5 +1,6 @@
 package com.jakubbone.repository_browser;
 
+import com.jakubbone.repository_browser.dto.ErrorResponse;
 import com.jakubbone.repository_browser.dto.RepoResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,10 @@ class RepositoryBrowserIntegrationTest {
 
 	@Test
 	void shouldReturnNonForkedRepositoriesWithBranchesForExistingOwner() {
-		// Given: "octocat" selected as well-known GitHub user with guaranteed public repos
-		String existingOwner = "octocat";
+		// Given: "octocat" selected as well-known GitHub account owner
+		String existentOwner = "octocat";
 		String forkedRepoName = "linguist";
-		String url = "http://localhost:" + port + "/api/v1/repositories/" + existingOwner;
+		String url = "http://localhost:" + port + "/api/v1/repositories/" + existentOwner;
 
 		// When: sending a GET request to the endpoint
 		ResponseEntity<List<RepoResponse>> response = restTemplate.exchange(
@@ -52,7 +53,7 @@ class RepositoryBrowserIntegrationTest {
 		repos.forEach(repo -> {
 			assertThat(repo.name()).isNotNull();
 			assertThat(repo.owner()).isNotNull();
-			assertThat(repo.owner().login()).isEqualTo(existingOwner);
+			assertThat(repo.owner().login()).isEqualTo(existentOwner);
 
 			// Verify returned repositories are not forks
 			assertThat(repo.name()).isNotEqualTo(forkedRepoName);
@@ -63,5 +64,17 @@ class RepositoryBrowserIntegrationTest {
 				assertThat(branch.lastCommitSha()).isNotNull();
 			});
 		});
+	}
+
+	@Test
+	void shouldReturn404ForNonExistentOwner() {
+		String nonExistingOwner = "notExistentTestOwner";
+		String url = "http://localhost:" + port + "/api/v1/repositories/" + nonExistingOwner;
+
+		ResponseEntity<ErrorResponse> response = restTemplate.getForEntity(url, ErrorResponse.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+		assertThat(response.getBody().statusCode()).isEqualTo(404);
+		assertThat(response.getBody().message()).isEqualTo("Owner not found");
 	}
 }

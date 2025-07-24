@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class RepoService {
     private final ApiClient client;
@@ -30,13 +32,13 @@ public class RepoService {
                                     branch.name(),
                                     branch.commit().sha())
                             )
-                            .collect(Collectors.toList());
+                            .collect(toList());
 
                     return new RepoResponse(
                             repo.name(),
                             new RepoResponse.Owner(repo.owner().login()),
                             branchResponses);
                 })
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }

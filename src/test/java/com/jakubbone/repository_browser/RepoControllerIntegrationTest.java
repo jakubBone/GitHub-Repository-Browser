@@ -1,16 +1,23 @@
 package com.jakubbone.repository_browser;
 
+import com.jakubbone.repository_browser.dto.RepoResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = {
-		"API_TOKEN=${TEST_TOKEN:token_for_test}"
-})
+@TestPropertySource(locations = "classpath:application-test.properties")
 class RepoControllerIntegrationTest {
 	@LocalServerPort
 	private int port;
@@ -18,4 +25,43 @@ class RepoControllerIntegrationTest {
 	@Autowired
 	private TestRestTemplate restTemplate;
 
+	@Test
+	void shouldReturnRepositoriesWithBranchesForExistingOwner() {
+		// Given: "octocat" selected as well-known GitHub user with guaranteed public repos
+		String existingOwner = "octocat";
+		String forkedRepoName = "linguist";
+		String url = "http://localhost:" + port + "/api/v1/repositories/" + existingOwner;
+
+		// When: sending a GET request to the endpoint
+		ResponseEntity<List<RepoResponse>> response = restTemplate.exchange(
+				url,
+				HttpMethod.GET,
+				null,
+				new ParameterizedTypeReference<List<RepoResponse>>() {
+				}
+		);
+
+		// Then: validate business logic and response structure
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(response.getBody()).isNotNull();
+
+		List<RepoResponse> repos = response.getBody();
+		assertThat(repos).isNotEmpty();
+
+		// Validate each repository entry
+		repos.forEach(repo -> {
+			assertThat(repo.name()).isNotNull();
+			assertThat(repo.owner()).isNotNull();
+			assertThat(repo.owner().login()).isEqualTo(existingOwner);
+
+			// Verify all returned repositories are not forks
+			assertThat(repo.name()).isNotEqualTo(forkedRepoName);
+
+			// For each branch, verify structure
+			repo.branches().forEach(branch -> {
+				assertThat(branch.name()).isNotNull();
+				assertThat(branch.lastCommitSha()).isNotNull();
+			});
+		});
+	}
 }

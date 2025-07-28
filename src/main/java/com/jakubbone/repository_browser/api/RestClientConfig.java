@@ -8,8 +8,11 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class RestClientConfig {
 
-    @Value("${API_TOKEN}")
+    @Value("${api.token}")
     private String apiToken;
+
+    @Value("${github.api.base-url}")
+    private String baseUrl;
 
     @Bean
     public RestClient restClient(){
@@ -18,7 +21,7 @@ public class RestClientConfig {
         }
 
         return RestClient.builder()
-                .baseUrl("https://api.github.com")
+                .baseUrl(baseUrl) // Zmiana na wartość z properties
                 .defaultHeader("Authorization","Bearer " + apiToken)
                 .build();
     }

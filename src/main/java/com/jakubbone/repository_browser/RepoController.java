@@ -37,8 +37,16 @@ public class RepoController {
 
     @ExceptionHandler(HttpClientErrorException.NotFound.class)
     public ResponseEntity<ErrorResponse> handleUserNotFound(HttpClientErrorException.NotFound e) {
+        log.warn("User not found: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(404, "Owner not found"));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericError(Exception e) {
+        log.error("Unexpected error occurred", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(500, "Internal server error"));
     }
 
 }

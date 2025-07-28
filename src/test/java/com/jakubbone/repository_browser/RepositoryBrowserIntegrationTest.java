@@ -27,7 +27,7 @@ class RepositoryBrowserIntegrationTest {
 	private TestRestTemplate restTemplate;
 
 	@Test
-	void shouldReturnNonForkedRepositoriesWithBranchesForExistingOwner() {
+	void shouldReturnNonForkedRepositoryListWithBranchesForExistingOwner() {
 		// Given: "octocat" selected as well-known GitHub account owner
 		String existentOwner = "octocat";
 		String forkedRepoName = "linguist";
@@ -64,6 +64,24 @@ class RepositoryBrowserIntegrationTest {
 				assertThat(branch.lastCommitSha()).isNotNull();
 			});
 		});
+	}
+
+	@Test
+	void shouldReturnEmptyRepositoryList() {
+		// Given: A new account with no repositories
+		String ownerWithNoRepos = "apitestuser1990";
+		String url = "http://localhost:" + port + "/api/v1/repositories/" + ownerWithNoRepos;
+
+		ResponseEntity<List<RepoResponse>> response = restTemplate.exchange(
+				url,
+				HttpMethod.GET,
+				null,
+				new ParameterizedTypeReference<List<RepoResponse>>() {}
+		);
+
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(response.getBody()).isNotNull();
+		assertThat(response.getBody()).isEmpty();
 	}
 
 	@Test

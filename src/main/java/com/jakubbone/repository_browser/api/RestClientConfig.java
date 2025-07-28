@@ -7,7 +7,6 @@ import org.springframework.web.client.RestClient;
 
 @Configuration
 public class RestClientConfig {
-
     @Value("${api.token}")
     private String apiToken;
 

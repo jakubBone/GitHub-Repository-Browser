@@ -22,8 +22,7 @@ public class RepoController {
     }
 
     @GetMapping("/{owner}")
-    public ResponseEntity<List<RepoResponse>> getRepos(
-            @PathVariable @Pattern(regexp = "^[a-zA-Z0-9._-]+$", message = "Invalid owner format") String owner){
+    public ResponseEntity<List<RepoResponse>> getRepos(@PathVariable String owner){
         List<RepoResponse> repos = service.getRepos(owner);
         return ResponseEntity.ok(repos);
     }

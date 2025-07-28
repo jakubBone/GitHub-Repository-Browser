@@ -2,7 +2,6 @@ package com.jakubbone.repository_browser;
 
 import com.jakubbone.repository_browser.dto.ErrorResponse;
 import com.jakubbone.repository_browser.dto.RepoResponse;
-import jakarta.validation.constraints.Pattern;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

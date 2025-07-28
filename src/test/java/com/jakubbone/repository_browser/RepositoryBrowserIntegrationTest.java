@@ -11,7 +11,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 
@@ -84,7 +83,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 	@Test
 	void shouldReturn404ForMissingOwner() {
-		// URL with missing owner
+		// Given: URL with missing owner
 		String url = "http://localhost:" + port + "/api/v1/repositories/";
 
 		ResponseEntity<ErrorResponse> response = restTemplate.getForEntity(url, ErrorResponse.class);

@@ -9,5 +9,4 @@ public class RepositoryBrowserApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RepositoryBrowserApplication.class, args);
 	}
-
 }

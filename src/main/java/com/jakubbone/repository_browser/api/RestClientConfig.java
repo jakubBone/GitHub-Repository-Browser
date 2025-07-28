@@ -21,7 +21,7 @@ public class RestClientConfig {
         }
 
         return RestClient.builder()
-                .baseUrl(baseUrl) // Zmiana na wartość z properties
+                .baseUrl(baseUrl)
                 .defaultHeader("Authorization","Bearer " + apiToken)
                 .build();
     }

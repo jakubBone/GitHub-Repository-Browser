@@ -23,7 +23,7 @@ public class RepoService {
 
     public List<RepoResponse> getRepos(String owner) {
         log.debug("Getting repositories for owner: {}", owner);
-        List<Repo> repos = client.getRepoForOwner(owner);
+        List<Repo> repos = client.getReposForOwner(owner);
         log.debug("Found {} repositories for owner: {}", repos.size(), owner);
 
         return repos.parallelStream() // avoid branches N+1 select problem
@@ -34,7 +34,7 @@ public class RepoService {
 
     private RepoResponse mapToRepoResponse(Repo repo){
         log.debug("Getting branches for repo: {}", repo.name());
-        List<Branch> branches = client.getBranchForRepo(repo.name(), repo.owner().login());
+        List<Branch> branches = client.getBranchesForRepo(repo.name(), repo.owner().login());
         log.debug("Found {} branches for owner: {}", branches.size(), repo.name());
 
         List<RepoResponse.BranchResponse> branchResponses = branches.stream()

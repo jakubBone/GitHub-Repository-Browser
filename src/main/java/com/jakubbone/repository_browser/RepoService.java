@@ -32,7 +32,6 @@ public class RepoService {
                 .collect(toList());
     }
 
-
     private RepoResponse mapToRepoResponse(Repo repo){
         log.debug("Getting branches for repo: {}", repo.name());
         List<Branch> branches = client.getBranchForRepo(repo.name(), repo.owner().login());

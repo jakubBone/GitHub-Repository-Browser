@@ -1,14 +1,13 @@
-package com.jakubbone.repository_browser.service;
+package com.jakubbone.repository_browser;
 
-import com.jakubbone.repository_browser.client.ApiClient;
-import com.jakubbone.repository_browser.client.ApiClient.Repo;
-import com.jakubbone.repository_browser.client.ApiClient.Branch;
+import com.jakubbone.repository_browser.api.ApiClient;
+import com.jakubbone.repository_browser.api.ApiClient.Repo;
+import com.jakubbone.repository_browser.api.ApiClient.Branch;
 import com.jakubbone.repository_browser.dto.RepoResponse;
 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 

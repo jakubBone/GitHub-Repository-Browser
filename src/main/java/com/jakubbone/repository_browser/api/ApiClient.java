@@ -1,4 +1,4 @@
-package com.jakubbone.repository_browser.client;
+package com.jakubbone.repository_browser.api;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;

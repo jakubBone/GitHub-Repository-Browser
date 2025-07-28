@@ -1,4 +1,4 @@
-package com.jakubbone.repository_browser.config;
+package com.jakubbone.repository_browser.api;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

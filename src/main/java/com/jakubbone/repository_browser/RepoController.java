@@ -1,8 +1,7 @@
-package com.jakubbone.repository_browser.controller;
+package com.jakubbone.repository_browser;
 
 import com.jakubbone.repository_browser.dto.ErrorResponse;
 import com.jakubbone.repository_browser.dto.RepoResponse;
-import com.jakubbone.repository_browser.service.RepoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -20,6 +20,7 @@ public class RepoService {
     public RepoService(ApiClient client) {
         this.client = client;
     }
+
     public List<RepoResponse> getRepos(String owner) {
         log.debug("Getting repositories for owner: {}", owner);
         List<Repo> repos = client.getRepoForOwner(owner);
@@ -27,21 +28,29 @@ public class RepoService {
 
         return repos.stream()
                 .filter(repo -> !repo.fork())
-                .map(repo -> {
-                    List<Branch> branches = client.getBranchForRepo(repo.name(), repo.owner().login());
-
-                    List<RepoResponse.BranchResponse> branchResponses = branches.stream()
-                            .map(branch -> new RepoResponse.BranchResponse(
-                                    branch.name(),
-                                    branch.commit().sha())
-                            )
-                            .collect(toList());
-
-                    return new RepoResponse(
-                            repo.name(),
-                            new RepoResponse.Owner(repo.owner().login()),
-                            branchResponses);
-                })
+                .map(this::mapToRepoResponse)
                 .collect(toList());
+    }
+
+
+    private RepoResponse mapToRepoResponse(Repo repo){
+        log.debug("Getting branches for repo: {}", repo.name());
+        List<Branch> branches = client.getBranchForRepo(repo.name(), repo.owner().login());
+        log.debug("Found {} branches for owner: {}", branches.size(), repo.name());
+
+        List<RepoResponse.BranchResponse> branchResponses = branches.stream()
+                .map(this::mapToBranchResponse)
+                .collect(toList());
+
+        return new RepoResponse(
+                repo.name(),
+                new RepoResponse.Owner(repo.owner().login()),
+                branchResponses);
+    }
+
+    private RepoResponse.BranchResponse mapToBranchResponse(Branch branch){
+        return new RepoResponse.BranchResponse(
+                        branch.name(),
+                        branch.commit().sha());
     }
 }

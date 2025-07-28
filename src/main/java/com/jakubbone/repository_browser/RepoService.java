@@ -26,7 +26,7 @@ public class RepoService {
         List<Repo> repos = client.getReposForOwner(owner);
         log.debug("Found {} repositories for owner: {}", repos.size(), owner);
 
-        return repos.parallelStream() // avoid branches N+1 select problem
+        return repos.parallelStream()
                 .filter(repo -> !repo.fork())
                 .map(this::mapToRepoResponse)
                 .collect(toList());

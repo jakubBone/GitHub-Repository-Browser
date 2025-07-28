@@ -19,12 +19,13 @@ public class RepoService {
         this.client = client;
     }
     public List<RepoResponse> getRepos(String owner) {
-        List<Repo> repos = client.extractRepoForOwner(owner);
+
+        List<Repo> repos = client.getRepoForOwner(owner);
 
         return repos.stream()
                 .filter(repo -> !repo.fork())
                 .map(repo -> {
-                    List<Branch> branches = client.extractBranchForRepo(repo.name(), repo.owner().login());
+                    List<Branch> branches = client.getBranchForRepo(repo.name(), repo.owner().login());
 
                     List<RepoResponse.BranchResponse> branchResponses = branches.stream()
                             .map(branch -> new RepoResponse.BranchResponse(

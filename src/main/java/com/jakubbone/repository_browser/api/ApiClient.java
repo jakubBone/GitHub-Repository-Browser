@@ -14,14 +14,14 @@ public class ApiClient {
         this.restClient = restClient;
     }
 
-    public List<Repo> extractRepoForOwner(String owner) {
+    public List<Repo> getRepoForOwner(String owner) {
         return restClient.get()
                 .uri("users/{owner}/repos", owner)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
     }
 
-    public List<Branch> extractBranchForRepo(String name, String owner){
+    public List<Branch> getBranchForRepo(String name, String owner){
         return restClient.get()
                 .uri("/repos/{owner}/{repoName}/branches", owner, name)
                 .retrieve()

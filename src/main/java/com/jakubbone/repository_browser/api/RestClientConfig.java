@@ -13,6 +13,10 @@ public class RestClientConfig {
 
     @Bean
     public RestClient restClient(){
+        if (apiToken == null || apiToken.trim().isEmpty()) {
+            throw new IllegalStateException("API_TOKEN must be provided");
+        }
+
         return RestClient.builder()
                 .baseUrl("https://api.github.com")
                 .defaultHeader("Authorization","Bearer " + apiToken)

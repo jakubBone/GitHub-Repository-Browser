@@ -20,17 +20,15 @@ public class RepoController {
         this.service = service;
     }
 
-    @GetMapping("/{owner}")
-    public ResponseEntity<List<RepoResponse>> getRepos(@PathVariable String owner){
+    @GetMapping({"/{owner}", "", "/"})
+    public ResponseEntity<?> getRepos(@PathVariable(required = false) String owner){
+        if (owner == null || owner.trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse(404, "Owner is missing"));
+        }
+
         List<RepoResponse> repos = service.getRepos(owner);
         return ResponseEntity.ok(repos);
-    }
-
-    @GetMapping(path = {"", "/"})
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ErrorResponse> handleMissingOwner() {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse(404, "Owner is missing"));
     }
 
     @ExceptionHandler(HttpClientErrorException.NotFound.class)

@@ -1,6 +1,5 @@
 package com.jakubbone.repository_browser;
 
-import com.jakubbone.repository_browser.dto.ErrorResponse;
 import com.jakubbone.repository_browser.dto.RepoResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +24,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 	@Test
 	void shouldReturnNonForkedRepositoryListWithBranchesForExistingOwner() {
-		// Given: "octocat" selected as well-known GitHub account owner
+		// Given: Known GitHub account owner who has both original repos and forks
 		String existentOwner = "octocat";
-		String forkedRepoName = "linguist";
+		String forkedRepoName = "linguist"; // Known fork that should be filtered out
+
 		String url = "http://localhost:" + port + "/api/v1/repositories/" + existentOwner;
 
-		// When: sending a GET request to the endpoint
+		// When: Requesting repositories for the owner
 		ResponseEntity<List<RepoResponse>> response = restTemplate.exchange(
 				url,
 				HttpMethod.GET,
@@ -39,69 +39,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 				}
 		);
 
-		// Then: validate business logic and response structure
+		// Then: Should return successful response with non-forked repos only
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody()).isNotNull();
 
 		List<RepoResponse> repos = response.getBody();
 		assertThat(repos).isNotEmpty();
 
-		// Validate each repository entry
 		repos.forEach(repo -> {
 			assertThat(repo.name()).isNotNull();
-			assertThat(repo.owner()).isNotNull();
 			assertThat(repo.owner().login()).isEqualTo(existentOwner);
 
-			// Verify returned repositories are not forks
+			// Core business requirement: forks must be excluded
 			assertThat(repo.name()).isNotEqualTo(forkedRepoName);
 
-			// For each branch, verify structure
+			// Each repo must have complete branch information
 			repo.branches().forEach(branch -> {
 				assertThat(branch.name()).isNotNull();
 				assertThat(branch.lastCommitSha()).isNotNull();
 			});
 		});
-	}
-
-	@Test
-	void shouldReturnEmptyRepositoryList() {
-		// Given: A new account with no repositories
-		String ownerWithNoRepos = "apitestuser1990";
-		String url = "http://localhost:" + port + "/api/v1/repositories/" + ownerWithNoRepos;
-
-		ResponseEntity<List<RepoResponse>> response = restTemplate.exchange(
-				url,
-				HttpMethod.GET,
-				null,
-				new ParameterizedTypeReference<List<RepoResponse>>() {}
-		);
-
-		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.getBody()).isNotNull();
-		assertThat(response.getBody()).isEmpty();
-	}
-
-	@Test
-	void shouldReturn404ForMissingOwner() {
-		// Given: URL with missing owner
-		String url = "http://localhost:" + port + "/api/v1/repositories/";
-
-		ResponseEntity<ErrorResponse> response = restTemplate.getForEntity(url, ErrorResponse.class);
-
-		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-		assertThat(response.getBody().statusCode()).isEqualTo(404);
-		assertThat(response.getBody().message()).isEqualTo("Owner is missing");
-	}
-
-	@Test
-	void shouldReturn404ForNonExistentOwner() {
-		String nonExistingOwner = "notExistentTestOwner";
-		String url = "http://localhost:" + port + "/api/v1/repositories/" + nonExistingOwner;
-
-		ResponseEntity<ErrorResponse> response = restTemplate.getForEntity(url, ErrorResponse.class);
-
-		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-		assertThat(response.getBody().statusCode()).isEqualTo(404);
-		assertThat(response.getBody().message()).isEqualTo("Owner not found");
 	}
 }

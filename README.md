@@ -3,7 +3,7 @@
 This project is a REST API application built with Java and the Spring Boot framework. 
 
 The application fetches and displays a specified GitHub owner's public repositories, excluding forks. 
-It communicates with the official GitHub API to retrieve the data, processes it, and exposes it through a custom endpoint.
+It communicates with the official GitHub REST API to retrieve the data, processes it, and exposes it through a custom endpoint.
 
 ## 🏛️ Design Philosophy
 
@@ -21,8 +21,8 @@ This project was built following the provided requirements. The following points
 
 - **Java 21**: The core language
 - **Spring Boot 3**: The main framework for building the application
-- **Spring MVC**: Used for creating REST API endpoints
-- **Spring RestClient**: HTTP client for communicating with the GitHub API
+- **Spring MVC**: Used for creating REST API endpoint
+- **Spring RestClient**: HTTP client for communicating with the GitHub REST API
 - **JUnit 5 & AssertJ**: For integration test
 - **Log4j2**: For application event logging
 - **Maven**: For dependency management and building the project
@@ -34,7 +34,7 @@ To run the application locally, please follow the steps below:
 ### Prerequisites
 
 - Java Development Kit (JDK) 21 or higher
-- Maven installed and configured
+- Maven installed 
 - A GitHub API access token
 
 ### Configuration
@@ -52,12 +52,10 @@ To run the application locally, please follow the steps below:
    API_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
    ```
    
-   - Alternatively, you can set the environment variable directly in your operating system.
-   - The application reads the token from the application properties.
+   - Alternatively, you can set the environment variable directly in your operating system
+   - The application reads the token from the application properties
    - The base API URL is also configured in `application.properties` and defaults to `https://api.github.com/`
    
-   
-   **Important**: The absence of a token will cause an `IllegalStateException` which is an intentional safeguard
 
 ### Running the Application
 
@@ -75,11 +73,11 @@ To run the application locally, please follow the steps below:
 
 ## 🌐 API Endpoint
 
-The application exposes one main endpoint for retrieving data.
+The application exposes one main endpoint for retrieving data
 
 ### Get User Repositories
 
-Retrieves a list of a owner's repositories (that are not forks) along with their branches and the last commit SHA for each branch
+Retrieves a list of a owner's repositories (that are not forks) with their branches and the last commit SHA for each branch
 
 - **URL**: `/api/v1/repositories/{owner}`
 - **Method**: `GET`
@@ -139,13 +137,7 @@ Returned when the specified owner does not exist on GitHub
 
 ## 🧪 Testing
 
-The project includes comprehensive integration tests that verify:
-
-- Successful retrieval of non-fork repositories for existing owners
-- Handling of owners with no repositories
-- Correct filtering of forked repositories
-- Appropriate 404 responses for non-existent owners
-- Error handling for missing owner parameter
+The project includes integration tests that verify successful retrieval of non-fork repositories for well-known GitHub owner 'octocat'
 
 ## 📋 Acceptance Criteria
 

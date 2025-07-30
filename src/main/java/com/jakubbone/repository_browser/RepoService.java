@@ -21,9 +21,9 @@ public class RepoService {
         this.client = client;
     }
 
-    public List<RepoResponse> getRepos(String owner) {
+    public List<RepoResponse> getRepos(final String owner) {
         log.debug("Getting repositories for owner: {}", owner);
-        List<Repo> repos = client.getReposForOwner(owner);
+        final var repos = client.getReposForOwner(owner);
         log.debug("Found {} repositories for owner: {}", repos.size(), owner);
 
         return repos.parallelStream()
@@ -32,9 +32,9 @@ public class RepoService {
                 .toList();
     }
 
-    private RepoResponse mapToRepoResponse(Repo repo){
+    private RepoResponse mapToRepoResponse(final Repo repo){
         log.debug("Getting branches for repo: {}", repo.name());
-        List<Branch> branches = client.getBranchesForRepo(repo.name(), repo.owner().login());
+        final var branches = client.getBranchesForRepo(repo.name(), repo.owner().login());
         log.debug("Found {} branches for owner: {}", branches.size(), repo.name());
 
         List<RepoResponse.BranchResponse> branchResponses = branches.stream()
@@ -47,7 +47,7 @@ public class RepoService {
                 branchResponses);
     }
 
-    private RepoResponse.BranchResponse mapToBranchResponse(Branch branch){
+    private RepoResponse.BranchResponse mapToBranchResponse(final Branch branch){
         return new RepoResponse.BranchResponse(
                         branch.name(),
                         branch.commit().sha());

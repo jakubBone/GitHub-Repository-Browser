@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
+//import static java.util.stream.Collectors.toList;
 
 @Service
 @Log4j2
 public class RepoService {
-    private final ApiClient client;
+    private ApiClient client;
 
     public RepoService(ApiClient client) {
         this.client = client;
@@ -29,7 +29,7 @@ public class RepoService {
         return repos.parallelStream()
                 .filter(repo -> !repo.fork())
                 .map(this::mapToRepoResponse)
-                .collect(toList());
+                .toList();
     }
 
     private RepoResponse mapToRepoResponse(Repo repo){
@@ -39,7 +39,7 @@ public class RepoService {
 
         List<RepoResponse.BranchResponse> branchResponses = branches.stream()
                 .map(this::mapToBranchResponse)
-                .collect(toList());
+                .toList();
 
         return new RepoResponse(
                 repo.name(),

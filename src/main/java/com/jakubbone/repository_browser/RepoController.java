@@ -2,6 +2,7 @@ package com.jakubbone.repository_browser;
 
 import com.jakubbone.repository_browser.dto.ErrorResponse;
 import com.jakubbone.repository_browser.dto.RepoResponse;
+import com.jakubbone.repository_browser.exception.InvalidOwnerException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,11 @@ public class RepoController {
     }
 
     @GetMapping({"/{owner}", "", "/"})
-    public ResponseEntity<?> getRepos(@PathVariable(required = false) String owner){
+    public ResponseEntity<List<RepoResponse>> getRepos(@PathVariable(required = false) final String owner) {
         if (owner == null || owner.trim().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ErrorResponse(404, "Owner is missing"));
+            throw new InvalidOwnerException("Owner login must be provided");
         }
-
-        List<RepoResponse> repos = service.getRepos(owner);
+        final var repos = service.getRepos(owner);
         return ResponseEntity.ok(repos);
     }
 }

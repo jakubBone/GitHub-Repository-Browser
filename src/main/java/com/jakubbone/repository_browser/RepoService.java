@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 @Log4j2
 public class RepoService {
-    private ApiClient client;
+    private final ApiClient client;
 
     public RepoService(ApiClient client) {
         this.client = client;

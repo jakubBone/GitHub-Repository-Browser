@@ -8,7 +8,7 @@ import java.util.List;
 
 @Component
 public class ApiClient {
-    private RestClient restClient;
+    private final RestClient restClient;
 
     public ApiClient(RestClient restClient) {
         this.restClient = restClient;

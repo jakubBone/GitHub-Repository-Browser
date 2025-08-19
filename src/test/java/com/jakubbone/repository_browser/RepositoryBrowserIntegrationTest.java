@@ -22,6 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 	@Autowired
 	private TestRestTemplate restTemplate;
 
+
+	// Happy path
 	@Test
 	void shouldReturnNonForkedRepositoryListWithBranchesForExistingOwner() {
 		// Given: Known GitHub account owner who has both original repos and forks

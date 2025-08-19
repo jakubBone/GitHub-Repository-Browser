@@ -21,8 +21,8 @@ public class RepoController {
         this.service = service;
     }
 
-    @GetMapping({"/{owner}", "", "/"})
-    public ResponseEntity<List<RepoResponse>> getRepos(@PathVariable(required = false) final String owner) {
+    @GetMapping({"/{owner}"})
+    public ResponseEntity<List<RepoResponse>> getRepos(@PathVariable final String owner) {
         if (owner == null || owner.trim().isEmpty()) {
             throw new InvalidOwnerException("Owner login must be provided");
         }
